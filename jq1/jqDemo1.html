@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo1</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		ul{
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			list-style: none;
+		}
+		ul li img{
+			width: 400px;
+			height: 320px;
+		}
+	</style>
+	<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+	<script>
+		$(function(){
+			var x=10;
+			var y=20;
+			$("a.tooltip").mouseover(function(e){
+				//title值赋给要显示的，然后自己设置为空，这样就不会显示title了
+				this.myTitle=this.title;
+				this.title="";
+				//创建一个新img
+				var tooltip="<img src='"+this.href+"' id='tooltip'>";
+				//追加到body中
+				$("body").append(tooltip);
+				//设置位置，书中没有给position....
+				$("#tooltip").css({
+					"top":(e.pageY+y)+"px",
+					"left":(e.pageX+x)+"px",
+					"position":"absolute",
+					"width":"550px",
+					"height":"440px"
+				}).show("fast");
+				//鼠标移出，删除对象
+			}).mouseout(function() {
+				this.title=this.myTitle;
+				$("#tooltip").remove()
+				//跟随鼠标移动，很赞
+			}).mousemove(function(e) {
+				$("#tooltip").css({
+					"top":(e.pageY+y)+"px",
+					"left":(e.pageX+x)+"px",
+					"position":"absolute"
+				})
+			});	
+		})	
+	</script>
+</head>
+<body>
+	<ul>
+		<li><a href="img/chudai.jpg" title="初代" class="tooltip"><img src="img/chudai.jpg" alt="初代奥特曼"></a></li>
+		<li><a href="img/dijia.jpg" title="迪迦" class="tooltip"><img src="img/dijia.jpg" alt="迪迦奥特曼"></a></li>
+		<li><a href="img/sailuo.jpg" title="赛罗" class="tooltip"><img src="img/sailuo.jpg" alt="赛罗奥特曼"></a></li>
+	</ul>
+</body>
+</html>
