@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo2</title>
+</head>
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+<script>
+	$(function(){
+		var page=1;
+		var i=4;
+		//按键点击
+		$("span.next").click(function(event) {
+			//声明变量找到最外层的元素。其实也可以用$(".v_show")
+			var $parent=$(this).parents("div.v_show");
+			//找到后代元素内容列表 这个设定的宽度要比较大。
+			var $v_show=$parent.find('div.v_content_list');
+			//内容的包裹元素，内容溢出后设置overflowhidden。
+			var $v_content=$parent.find('div.v_content');
+			//获得包裹元素的宽度，根据这个宽度来进行左右移动。
+			var v_width=$v_content.width();
+			//获得所有li的个数
+			var len=$v_show.find('li').length;
+			//每页4个，如果超出就要重新再给一页，所以页数要向上取整。
+			var page_count=Math.ceil(len/i);
+			//判断如果没有在执行动画才能开始动画，否则会造成不协调
+			if(!$v_show.is(":animated")){
+				//判断当页数等于总页数时，再点击一下页的时候就返回到第一页。否则仍旧移动下一页。
+				if(page==page_count){
+					$v_show.animate({
+						left: "0px"},
+						"slow");
+					page=1;
+				}else{
+					$v_show.animate({
+						left: "-="+v_width},
+						"slow");
+					page++;
+				}
+				//改变页数的样式
+				$parent.find("span").eq((page-1)).addClass('current').siblings().removeClass('current');
+			}
+		});
+		$("span.prev").click(function(event) {
+			console.log("bbb");
+			var $parent=$(this).parents("div.v_show");
+			var $v_show=$parent.find('div.v_content_list');
+			var $v_content=$parent.find('div.v_content')
+			var v_width=$v_content.width();
+			var len=$v_show.find('li').length;
+			var page_count=Math.ceil(len/i);
+			if(!$v_show.is(":animated")){
+				if(page==1){
+					$v_show.animate({
+						//当页数==1时，再点击上一页left值就为最后一页的距离
+						left: "-="+v_width*(page_count-1)},
+						"slow");
+					//页数为最后一页
+					page=page_count;
+				}else{
+					$v_show.animate({
+						left: "+="+v_width},
+						"slow");
+					page--;
+				}
+				$parent.find("span").eq((page-1)).addClass('current').siblings().removeClass('current');
+			}
+		});
+	})
+</script>
+<style>
+	*{
+		padding: 0;
+		margin: 0;
+		font-family: "微软雅黑"
+	}
+	a{
+		text-decoration: none;
+	}
+	.v_caption{
+		display: flex;
+		flex-flow: row;
+		justify-content: space-around;
+		align-items: center;
+		width: 550px;
+		background-color: #00090E;
+		color: #fff;
+		border-radius: 2px;
+	}
+	.v_caption a{
+		color: #fff;
+	}
+	.v_content{
+		width: 600px;
+		overflow: hidden;
+	}
+	.v_content_list{
+		width: 3000px;
+		position: relative;
+	}
+	.v_content_list>ul{
+		list-style: none;
+		overflow: hidden;
+	}
+	.v_content_list>ul li{
+		float: left;
+		margin-right: 50px;
+	}
+	.v_content_list>ul img{
+		width: 100px;
+		height: 100px;
+	}
+	.span{
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background-color: white;
+	}
+	.current{
+		background-color: #0FF688;
+	}
+	.prev,.next{
+		cursor: pointer;
+	}
+	.prev>img{
+		transform: rotateZ(-90deg);
+	}
+	.next>img{
+		transform: rotateZ(90deg);
+	}
+</style>
+<body>
+	<div class="v_show">
+		<div class="v_caption">
+			<h2 class="cartoon" title="卡通动漫">卡通动漫</h2>
+			<div class="highlight_tip">
+				<span class="span current" ></span>
+				<span class="span"></span>
+				<span class="span"></span>
+				<span class="span"></span>
+			</div>
+			<div class="change_btn">
+				<span class="prev"><img src="img/arrow.png" alt=""></span>
+				<span class="next"><img src="img/arrow.png" alt=""></span>
+			</div>
+			<em><a href="#">更多>></a></em>
+		</div>
+		<div class="v_content">
+			<div class="v_content_list">
+				<ul>
+					<li><a href="#"><img src="img/haizeiwang.jpg" alt="海贼王"></a><h4>海贼王</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/haizeiwang.jpg" alt="海贼王"></a><h4>海贼王</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/haizeiwang.jpg" alt="海贼王"></a><h4>海贼王</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/haizeiwang.jpg" alt="海贼王"></a><h4>海贼王</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/huoying.jpg" alt="火影忍者"></a><h4>火影忍者</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/huoying.jpg" alt="火影忍者"></a><h4>火影忍者</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/huoying.jpg" alt="火影忍者"></a><h4>火影忍者</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/huoying.jpg" alt="火影忍者"></a><h4>火影忍者</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/dijia.jpg" alt="奥特曼"></a><h4>奥特曼</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/dijia.jpg" alt="奥特曼"></a><h4>奥特曼</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/dijia.jpg" alt="奥特曼"></a><h4>奥特曼</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/dijia.jpg" alt="奥特曼"></a><h4>奥特曼</h4><span>播放: <em>2500</em></span></li>
+					<li><a href="#"><img src="img/longzhu.jpg" alt="龙珠"></a><h4>龙珠</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/longzhu.jpg" alt="龙珠"></a><h4>龙珠</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/longzhu.jpg" alt="龙珠"></a><h4>龙珠</h4><span>播放: <em>2000</em></span></li>
+					<li><a href="#"><img src="img/longzhu.jpg" alt="龙珠"></a><h4>龙珠</h4><span>播放: <em>2500</em></span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
