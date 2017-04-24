@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表单</title>
+	<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+	<style>
+		input:focus{
+			transform: scaleX(1.1);
+			transition: all .8s;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<fieldset>
+			<legend>表单练习1</legend>
+			<div style="margin-bottom: 20px;">
+				<label for="username">账号:</label>
+				<input type="text" id="username">
+			</div>
+			<div style="margin-bottom: 20px;">
+				<label for="pass">密码:</label>
+				<input type="password" id="pass">
+			</div>
+			<div>
+				<label for="msg">备注:</label>
+				<textarea id="msg" cols="30" rows="10"></textarea>
+				<button id="bigger">放大</button>
+				<button id="smaller">缩小</button>
+			</div>	
+		</fieldset>
+	</form>
+	<form>
+		你喜欢的游戏是?<br/>
+		<input type="checkbox" value="暗黑破坏神">暗黑破坏神
+		<input type="checkbox" value="鬼泣">鬼泣
+		<input type="checkbox" value="战神">战神
+		<input type="checkbox" value="生化危机">生化危机<br/>
+		<button id="checkAll">全选</button>
+		<button id="checkNo">全不选</button>
+		<button id="checkRev">反选</button>
+		<button id="send">提交</button>
+	</form>
+<script>
+	$(function(){
+		var $msg=$("#msg");
+			$("#bigger").click(function(){
+				//当高度小于500px时且当不在进行动画时执行动画效果，高宽各加50px;
+				if($msg.height()<500){
+					if(!$msg.is(":animated")){
+						$msg.animate({height:"+=50",width:"+=50"},400);
+					}		
+				}else{
+					alert("超出限制！")
+				}			
+			});
+			$("#smaller").click(function(){
+				if($msg.height()>100){
+					if(!$msg.is(":animated")){
+						$msg.animate({height:"-=50",width:"-=50"}, 400)
+					}
+				}else{
+					alert("太小了！")
+				}	
+			})
+			//点击全选按钮
+		$("#checkAll").click(function(event) {
+			//书上写的是atrr,设置属性,但是prop更好。
+			$('[type=checkbox]').prop("checked",true);
+		});	
+		//点击取消全选
+		$("#checkNo").click(function(event) {
+			$('[type=checkbox]').prop("checked",false);
+		});	
+		//点击反选
+		$("#checkRev").click(function(){
+			//each()遍历，把每一个选项的checked属性改成相反值
+			$('[type=checkbox]').each(function(){
+				this.checked=!this.checked;
+			})
+		})
+		$("#send").click(function(event) {
+			var str="你选中的是: \r\n"
+			$(":checkbox:checked").each(function(){
+				str+=$(this).val()+"\r\n"
+			});
+			alert(str);
+		});
+	})
+</script>
+</body>
+</html>
