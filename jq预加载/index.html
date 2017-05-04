@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片预加载 无序加载</title>
+	<style>
+		*{
+			margin:0;
+			padding: 0;
+		}
+		body{
+			/*为了让子元素继承高度和宽度*/
+			height: 100%;
+			width: 100%;
+		}
+		a{
+			text-decoration: none;
+		}
+		.box{
+			text-align: center;
+		}
+		.btnc{
+			display: flex;
+			flex-flow: row;
+			justify-content: space-around;
+		}
+		.btn{
+			display: inline-block;
+			height: 30px;
+			line-height: 30px;
+			border:1px solid #ccc;
+			background-color: #fff;
+			padding: 0 10px;
+			color:#333;
+		}
+		.btn:hover{
+			background-color: #eee;
+		}
+		.loading{
+			position:fixed;
+			top:0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-flow: row;
+			align-items: center;
+			justify-content:center;
+			text-align: center;
+			font-size: 30px;
+			background-color: #eee;
+			/*visibility: hidden;*/
+		}
+		.progress{
+			/*margin-top: 300px;*/
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<img src="http://image.tianjimedia.com/uploadImages/2011/132/T68D93142J43_1.jpg" alt="pic" id="img">
+	</div>
+	<p class="btnc">
+		<a href="#" class="btn" data-control='prev'>上一页</a>
+		<a href="#" class="btn" data-control='next'>下一页</a>
+	</p>
+	<!-- <div class="loading">	
+		<p class="progress">0%</p>
+	</div> -->
+	<script src="./js/jquery-3.2.1.js"></script>
+	<script>
+		//图片地址的数组
+		var imgs=[
+			'http://image.tianjimedia.com/uploadImages/2011/132/T68D93142J43_1.jpg',
+			'http://ps4.tgbus.com/UploadFiles/201603/20160321185530387.jpg',
+			'http://image.chinabgao.com/images/content/20160128/20160128053154_65057.jpg',
+			'http://www.3dmgame.com/uploads/allimg/140925/153_140925150059_1.jpg',
+			'http://p16.qhimg.com/t017d547dc0fd1ef85e.jpg'
+		];
+		//定义索引，数组的长度，加载完成的计数，获取显示进度条的dom元素。
+		var index=0,
+			len=imgs.length,
+			count=0;
+			$progress=$('.progress');
+		//$.each方法去遍历数组（也可以是对象），每个数组元素创建一个图片对象，每当图片加载完成（load）就执行函数，去写入百分比，当数量大于等于len-1时就隐藏进度条
+		$.each(imgs,function(i,src){
+			var imgObj=new Image();
+			$(imgObj).on('load error',function(){
+				$progress.html(Math.round((count+1)/len * 100)+"%");
+
+				if(count>=len-1){
+					$('.loading').hide();
+					document.title='1/'+len;
+				}
+				count++;	
+			});
+
+			imgObj.src=src;
+		})
+
+
+		$('.btn').on('click',function(){
+			if('prev'===$(this).data('control')){
+				index=Math.max(0,--index);
+
+				// index--;
+				// if(index<0){
+				// 	index=0;
+				// }
+			}else{
+				index=Math.min(len-1,++index);
+			}
+			document.title=(index+1)+'/'+len;
+			$('#img').attr('src',imgs[index]);
+		})
+	</script>
+</body>
+</html>
