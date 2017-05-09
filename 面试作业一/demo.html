@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo</title>
+	<style>
+		.container{
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			width: 500px;
+			height: 50px;
+		}
+		.containerTwo{
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			width: 500px;
+			height: 50px;
+		}
+		.box{
+			width: 40px;
+			height: 25px;
+			border: 1px solid black;
+			border-radius: 5px;
+			background-color: #FEA4A4;
+		}
+		.container .box:first-child{
+			transform: rotateZ(-45deg);
+			position: relative;
+			top:20px;
+		}
+		.container .box:last-child{
+			transform: rotateZ(45deg);
+			position: relative;
+			top:20px;
+		}
+		.containerTwo .box:first-child{
+			transform: rotateZ(45deg);
+			position: relative;
+			top:-20px;
+		}
+		.containerTwo .box:last-child{
+			transform: rotateZ(-45deg);
+			position: relative;
+			top:-20px;
+		}
+		.shanshuo1{
+			background-color: red;
+		}
+	</style>
+	<!-- 引入jq库 -->
+	<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+	<script>
+		$(function(){
+			//定义全局变量 空对象
+			var pageTimer={};
+			$("#btnO").click(function(event) {
+				//清空所有定时器
+				for(var each in pageTimer){
+				    clearTimeout(pageTimer[each]);
+				}
+				//把颜色恢复成默认值
+				$(".box").css({
+					backgroundColor: '#FEA4A4'
+				});
+				var red=function(){
+					$(".one").css({
+						backgroundColor: 'red'
+					});
+					//变红色之后再隔200ms变原来的颜色
+					pageTimer["timer1"]=setTimeout(old,200)
+				}
+				var old=function(){
+					$(".one").css({
+						backgroundColor: '#FEA4A4'
+					});
+					//原来的颜色过200ms再变成红色
+					pageTimer["timer2"]=setTimeout(red,200)
+				}
+				//直接调用变红色的函数
+				red();
+
+				var middleRed=function(){
+					$(".two").css({
+						backgroundColor: 'red'
+					});
+					//同上只是变了一个选择器
+					pageTimer["timer3"]=setTimeout(middleOld,200)
+				}
+				var middleOld=function(){
+					$(".two").css({
+						backgroundColor: '#FEA4A4'
+					});
+					pageTimer["timer4"]=setTimeout(middleRed,200)
+				}
+				pageTimer["timer5"]=setTimeout(middleRed,200);
+			});
+			$("#btnT").click(function(event) {
+				//清空所有定时器
+				for(var each in pageTimer){
+				    clearTimeout(pageTimer[each]);
+				}
+				//把颜色恢复成默认值
+				$(".box").css({
+					backgroundColor: '#FEA4A4'
+				});
+				var anotherRedt=function(){
+					$(".three").css({
+						backgroundColor:'red'
+					});
+					pageTimer["timer6"]=setTimeout(anotherOldt,200)
+				}
+				var anotherOldt=function(){
+					$(".three").css({
+						backgroundColor:'#FEA4A4'
+					});
+					pageTimer["timer7"]=setTimeout(anotherRedt,200)
+				}
+				anotherRedt();
+				var anotherRedf=function(){
+					$(".four").css({
+						backgroundColor:'red'
+					});
+					pageTimer["timer8"]=setTimeout(anotherOldf,200)
+				}
+				var anotherOldf=function(){
+					$(".four").css({
+						backgroundColor:'#FEA4A4'
+					});
+					pageTimer["timer9"]=setTimeout(anotherRedf,200)
+				}
+				pageTimer["timer10"]=setTimeout(anotherRedf,200);
+			});
+		})
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="box one three"></div>
+		<div class="box two four"></div>
+		<div class="box two four"></div>
+		<div class="box two four"></div>
+		<div class="box one four"></div>
+	</div>
+	<div class="container">
+		<div class="box one four"></div>
+		<div class="box two four"></div>
+		<div class="box two four"></div>
+		<div class="box two four"></div>
+		<div class="box one three"></div>
+	</div>
+	<div style="height: 50px;"></div>
+	<div class="containerTwo">
+		<div class="box one four"></div>
+		<div class="box two three"></div>
+		<div class="box two three"></div>
+		<div class="box two three"></div>
+		<div class="box one three"></div>
+	</div>
+	<div class="containerTwo">
+		<div class="box one three"></div>
+		<div class="box two three"></div>
+		<div class="box two three"></div>
+		<div class="box two three"></div>
+		<div class="box one four"></div>
+	</div>
+	<div style="width:500px;overflow: hidden;">
+		<button id="btnO" style="float: left;" >闪烁1</button>
+		<button id="btnT" style="float: right;">闪烁2</button>
+	</div>
+</body>
+</html>

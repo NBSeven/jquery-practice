@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		input[type=checkbox]{
+			/*visibility: hidden;*/
+			display:none;
+		}
+		.lb{
+			display: block;
+			box-sizing: border-box;
+			width: 50px;
+			height: 35px;
+			background:#0BB1D9;
+			border: 1px solid black;
+			border-radius: 3px;
+		}
+		#main{
+			display: flex;
+			flex-flow: row;
+			align-items: center;
+			justify-content: space-around;
+			width: 800px;
+			height: 100px;
+		}
+	</style>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+	<script>
+		$(function(){
+			//定义全局变量 空对象
+			var pageTimer={};
+			changeColor=function(){
+				$("input:checked").siblings().css("background","black");
+				pageTimer["timer"]=setTimeout(changeColorT,parseInt($("option:selected").val()))	
+			}
+			changeColorT=function(){
+				$("input:checked").siblings().css("background","white");
+				pageTimer["timer2"]=setTimeout(changeColor,parseInt($("option:selected").val()))
+			}
+			$("label").click(function(event) {
+				if($(this).siblings('input:checkbox').is(':checked')){
+					$(this).css("background","#0BB1D9");
+					//判断先开始再设置cheaked所以是相反的。。。。
+				}else{
+					$(this).css("background","#FE1010");					
+				}
+			});
+			//select选择事件
+			$("#select").change(function() {
+				for(var each in pageTimer){
+				    clearTimeout(pageTimer[each]);
+			
+				}
+				//判断节点是不是被选中
+				if($("input:checkbox").is(":checked")){
+					
+					//再判断一下选中的值是否有效（如果不给这个条件，选空值的时候会闪得比较快。）
+					if(parseInt($("option:selected").val())>0){
+						changeColor();
+					}
+				}
+				console.log($("option:selected").val())
+			});
+
+		})
+	</script>
+</head>
+<body>
+	<div id="main">
+		<div class="container">
+			<input type="checkbox" id="check1" class="none">
+			<label for="check1" id="lb1" class="lb"></label>
+		</div>
+		<div class="container">
+			<input type="checkbox" id="check2" class="none">
+			<label for="check2" id="lb2" class="lb"></label>
+		</div>
+		<div class="container">
+			<input type="checkbox" id="check3" class="none">
+			<label for="check3" id="lb3" class="lb"></label>
+		</div>
+		<div class="container">
+			<input type="checkbox" id="check4" class="none">
+			<label for="check4" id="lb4" class="lb"></label>
+		</div>	
+		<div class="container">
+			<input type="checkbox" id="check5" class="none">
+			<label for="check5" id="lb5" class="lb"></label>
+		</div>	
+		<div class="container">
+			<input type="checkbox" id="check6" class="none">
+			<label for="check6" id="lb6" class="lb"></label>
+		</div>		
+		<div class="container">
+			<input type="checkbox" id="check7" class="none">
+			<label for="check7" id="lb7" class="lb"></label>
+		</div>	
+		<div class="container">
+			<input type="checkbox" id="check8" class="none">
+			<label for="check8" id="lb8" class="lb"></label>
+		</div>	
+		<div class="container">
+			<input type="checkbox" id="check9" class="none">
+			<label for="check9" id="lb9" class="lb"></label>
+		</div>	
+	</div>
+	<select name="chooseValue" id="select">
+	    <option value="0">无值</option>
+		<option value="200ms">200ms</option>
+		<option value="400ms">400ms</option>
+	</select>
+	<div>单击元素为选中状态，再次点击可取消。
+	这次换了一种元素做选中，目前只能做到同时设置或者单一设置。
+	目前就只能做到这样了，抱歉 打扰了。</div>
+</body>
+</html>
